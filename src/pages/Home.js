@@ -69,16 +69,7 @@ function Home() {
         </div>
 
         {/* world map */}
-        <div className="h-80 lg:h-52 w-full border border-black my-3 hidden  lg:flex flex-col lg:flex-row justify-center ">
-          <div className="w-full h-full lg:w-1/2 border border-black ">
-            {" "}
-            world map-2
-          </div>
-          <div className="h-full w-full lg:w-1/2 border border-black ">
-            {" "}
-            world map-2
-          </div>
-        </div>
+        <div></div>
       </div>
 
       {/* right */}
