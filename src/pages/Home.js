@@ -1,7 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BoxChart, BarChartBox, LiveUpdate, SymptomsBox } from "../components";
 
 function Home() {
+  const [cases, setCases] = useState({
+    cases: "1,218,087",
+    death: "65,841",
+    recovered: "253,817"
+  });
+
+  useEffect(() => {
+
+    async function fetchData(){
+
+      try{
+        const response = await fetch("https://data.covid19india.org/v4/min/data.min.json");
+        const json = await response.json();
+        console.log(json.AN)
+  
+        setCases(prev => ({
+          ...prev, cases: json.AN.total.confirmed,
+          death: json.AN.total.deceased,
+          recovered: json.AN.total.recovered
+        }))
+      }catch(error){
+       console.log("Error", error)
+      }
+    
+    }
+    fetchData()
+  }, [])
+
+  // console.log(total)
   return (
     <main className="main lg:flex flex-wrap justify-start  gap-7  pe-3">
       {/* left */}
@@ -11,7 +40,7 @@ function Home() {
           <div className="h-40 w-full lg:w-1/3  rounded-2xl overflow-hidden shadow-md shadow-zinc-200">
             <BoxChart
               color={"rgb(13, 157, 197)"}
-              count={"1,218,087"}
+              count={cases.cases}
               title={"Cases"}
               percentage={"23%"}
             />
@@ -19,7 +48,7 @@ function Home() {
           <div className="h-40 w-full lg:w-1/3 rounded-2xl overflow-hidden shadow-md shadow-zinc-200">
             <BoxChart
               color={"rgb(239 68 68)"}
-              count={"65,841"}
+              count={cases.death}
               title={"Death"}
               percentage={"19%"}
             />
@@ -27,7 +56,7 @@ function Home() {
           <div className="h-40 w-full lg:w-1/3  rounded-2xl overflow-hidden shadow-md shadow-zinc-200">
             <BoxChart
               color={"rgb(101 163 13)"}
-              count={"253,817"}
+              count={cases.recovered}
               title={"Recovered"}
               percentage={"15%"}
             />
