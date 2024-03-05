@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BoxChart, BarChartBox, LiveUpdate, SymptomsBox } from "../components";
+import { BoxChart, BarChartBox, LiveUpdate, SymptomsBox, PieChartBox } from "../components";
 
 function Home() {
   const [cases, setCases] = useState({
@@ -13,14 +13,14 @@ function Home() {
     async function fetchData(){
 
       try{
-        const response = await fetch("https://data.covid19india.org/v4/min/data.min.json");
+        const response = await fetch("https://data.covid19india.org/data.json");
         const json = await response.json();
-        console.log(json.AN)
+        
   
         setCases(prev => ({
-          ...prev, cases: json.AN.total.confirmed,
-          death: json.AN.total.deceased,
-          recovered: json.AN.total.recovered
+          ...prev, cases: json.statewise[0].active,
+          death: json.statewise[0].deaths,
+          recovered: json.statewise[0].recovered,
         }))
       }catch(error){
        console.log("Error", error)
@@ -30,9 +30,9 @@ function Home() {
     fetchData()
   }, [])
 
-  // console.log(total)
+ 
   return (
-    <main className="main lg:flex flex-wrap justify-start  gap-7  pe-3">
+    <main className="main h-[87vh] overflow-scroll lg:flex flex-wrap justify-start  gap-7  pe-3">
       {/* left */}
       <div className="w-full  lg:w-8/12 lg:h-full  ">
         {/* chart box -> cases, death and recovery */}
@@ -69,13 +69,15 @@ function Home() {
         </div>
 
         {/* world map */}
-        <div></div>
+        <div className="lg-auto lg:h-80 w-full  my-3 rounded-2xl overflow-hidden shadow-md shadow-zinc-200"> 
+          <PieChartBox/>
+        </div>
       </div>
 
       {/* right */}
       <div className="w-full  lg:w-3/12 h-full   ">
         {/* live updates */}
-        <div className="w-full h-1/4 lg:h-1/2  mb-4 rounded-2xl overflow-hidden shadow-md shadow-zinc-200 bg-white">
+        <div className="w-full h-auto overflow-hidden mb-4 rounded-2xl  shadow-md shadow-zinc-200 bg-white">
           {" "}
           <LiveUpdate />{" "}
         </div>

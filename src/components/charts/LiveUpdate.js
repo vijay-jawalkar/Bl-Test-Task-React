@@ -55,7 +55,7 @@ export function LiveUpdate() {
       </h3>
 
       <ul className="list-none py-3 px-2">
-        {list.map((item, index) => {
+        {list.map((item) => {
           return (
             <li key={item.id} className="flex items-center gap-1 py-2">
               <p className={`text-lg ${item.dotColor}`}>
